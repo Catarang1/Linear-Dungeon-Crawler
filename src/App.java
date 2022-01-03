@@ -25,6 +25,7 @@ public class App {
         commands.add(new Command("compass") {
             @Override
             public void execute(String arg) {
+                clearScreen();
                 System.out.println("You are in " + player.getLocation().name);
                 System.out.println("You are in " + player.getLocation().description);
             }
@@ -36,6 +37,7 @@ public class App {
                 if (arg.equals("next")) {
                     if (!player.getLocation().next().isLocked()) {
                         player.moveForward();
+                        System.out.println(player.getLocation().name);
                         System.out.println(player.getLocation().description);
                     } else {
                         System.out.println("Next location is locked!");
@@ -43,12 +45,38 @@ public class App {
                 } else if (arg.equals("back")) {
                     if (!player.getLocation().previous().isLocked()) {
                         player.moveBackward();
+                        System.out.println(player.getLocation().name);
                         System.out.println(player.getLocation().description);
                     } else {
                         System.out.println("Next location is locked!");
                     }
                 } else {
                     System.out.println("I don't understand where to move.");
+                }
+            }
+        });
+
+        commands.add(new Command("unlock") {
+            @Override
+            public void execute(String arg) {
+                if (arg.equals("next")) {
+                    Location nextRoom = player.getLocation().next();
+                    if (nextRoom.isLocked()) {
+                        //check for key
+                        nextRoom.unlock();
+                    } else {
+                        System.out.println("Next location is not locked!");
+                    }
+                } else if (arg.equals("back")) {
+                    Location previousRoom = player.getLocation().previous();
+                    if (previousRoom.isLocked()) {
+                        //check for key
+                        previousRoom.unlock();
+                    } else {
+                        System.out.println("Next location is not locked!");
+                    }
+                } else {
+                    System.out.println("I don't understand what to unlock.");
                 }
             }
         });
@@ -84,4 +112,10 @@ public class App {
         String input = s.nextLine();
         return input.split(" ");
     }
+
+    public static void clearScreen() {  
+        System.out.print("\033[H\033[2J");
+        System.out.flush();  
+    }
+
 }

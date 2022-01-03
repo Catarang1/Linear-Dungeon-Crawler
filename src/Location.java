@@ -1,8 +1,8 @@
 public enum Location {
-    HALLWAY     ("Hallway", "Dark Hallway, couple cobwebs hanging from the ceiling", false),
-    STORAGE     ("Storage", "Granary is darklit and danger seem to seep from behind every cupboard", false),
-    STAIRWAY    ("Stairway", "Torches burn happily, lighting up path to King's Chamber", true),
-    KINGSROOM   ("King's Room", "King is peering through dimly lit chamber upon you from high stood throne", false);
+    HALLWAY     ("(1) Hallway", "Dark Hallway, couple cobwebs hanging from the ceiling", false),
+    STORAGE     ("(2) Storage", "Granary is darklit and danger seem to seep from behind every cupboard", false),
+    STAIRWAY    ("(3) Stairway", "Torches burn happily, lighting up path to King's Chamber", true),
+    KINGSROOM   ("(4) King's Room", "King is peering through dimly lit chamber upon you from high stood throne", false);
 
 
     public final String name;
