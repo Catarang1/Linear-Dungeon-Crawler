@@ -22,10 +22,22 @@ public class App {
             }
         });
 
+        commands.add(new Command("help") {
+            @Override
+            public void execute(String arg) {
+                System.out.println("Welcome to my Dungeon Crawler!");
+                System.out.println("---------------------------------");
+                System.out.println("> command 'help' will show you what commands can you use to wander around dungeon");
+                System.out.println("> command 'compass' will show you where in dungeon you are");
+                System.out.println("> command 'move' will move your character through a dungeon");
+                System.out.println("> command 'unlock' will combined with 'next' or 'back' will try to unlock doors behind or in front of you");
+                System.out.println("> command 'quit' will exit the dungeon");
+            }
+        });
+
         commands.add(new Command("compass") {
             @Override
             public void execute(String arg) {
-                clearScreen();
                 System.out.println("You are in " + player.getLocation().name);
                 System.out.println("You are in " + player.getLocation().description);
             }
@@ -64,6 +76,7 @@ public class App {
                     if (nextRoom.isLocked()) {
                         //check for key
                         nextRoom.unlock();
+                        System.out.println("Unlocked!");
                     } else {
                         System.out.println("Next location is not locked!");
                     }
@@ -72,6 +85,7 @@ public class App {
                     if (previousRoom.isLocked()) {
                         //check for key
                         previousRoom.unlock();
+                        System.out.println("Unlocked!");
                     } else {
                         System.out.println("Next location is not locked!");
                     }
@@ -97,6 +111,7 @@ public class App {
 
             for (Command command : commands) {
                 if (command.name.equals(input[0])) {
+                    clearScreen();
                     command.execute(arg);
                     break;
                 }
