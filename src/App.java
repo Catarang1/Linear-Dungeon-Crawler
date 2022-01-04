@@ -95,6 +95,10 @@ public class App {
             if (attackable != null) {
                 player.attack(attackable);
                 System.out.println("Player attacks " + attackable.name + " for " + player.getStrength());
+                if (!attackable.isAlive()) {
+                    entities.remove(attackable);
+                    System.out.println(attackable.name + " dies.");
+                }
             } else {
                 System.out.println("Player swings through air hitting nothing.");
             }
@@ -122,25 +126,25 @@ public class App {
             // each enemy that is in same room as player
             // either attacks player or regenerates depending on their energy if enemy
             for (Entity entity : entities) {
-                if (!entity.isAlive()) {// remove from list of entities, needs iterated approach};
-                    if (entity.getLocation() != player.getLocation())
-                        continue;
-                    if (entity.getType() == EntityType.ENEMY_NPC || entity.getType() == EntityType.BOSS) {
-                        System.out.println(entity.name + " is in same room as player");
-
-                        if (entity.isFizzled())
-                            entity.regenerate();
-                            System.out.println(entity.name + " looks tired and does not swing weapon this round.");
-                        } else {
-                            entity.attack(player);
-                            System.out.println(entity.name + " hits player for " + entity.getStrength() + ".");
-                        }
+                /*if (!entity.isAlive()) { remove from list of entities, needs iterated approach}*/;
+                if (entity.getLocation() != player.getLocation()) continue;
+                if (entity.getType() == EntityType.ENEMY_NPC || entity.getType() == EntityType.BOSS) {
+                    System.out.println(entity.name + " is in same room as player");
+                
+                    if (entity.isFizzled()) {
+                        System.out.println(entity.name + " looks tired and does not swing weapon this round. " + entity.name + " has " + entity.getEnergy() + " energy.");
+                        entity.regenerate();
+                    } else {
+                        entity.attack(player);
+                        System.out.println(entity.name + " hits player for " + entity.getStrength() + ".");
                     }
                 }
+                
             }
 
-            s.close();
         }
+        s.close();
+    }
 
     public static String[] getInput() {
         String input = s.nextLine();

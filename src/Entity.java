@@ -10,9 +10,6 @@ public class Entity {
     private int energy;
     private Location location;
     private int strength;
-    
-    private final Location defaultSpawn = Location.HALLWAY;
-    private final int defaultStrength = 10;
 
     // location and strength not defined >> default
     public Entity(EntityType type, String name, int hp, int erg, Location location, int str) {
@@ -41,7 +38,7 @@ public class Entity {
     }
 
     public boolean isFizzled() {
-        return this.energy < 0;
+        return this.energy <= 0;
     }
     
     public void setHealth(int newHealth) {
