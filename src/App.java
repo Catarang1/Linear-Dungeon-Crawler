@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class App {
 
-    static Scanner s = new Scanner(System.in);
+    public static Scanner s = new Scanner(System.in);
 
     public static void main(String[] args) {
 
@@ -21,11 +21,12 @@ public class App {
 
         commands.put("help", arg -> {
             System.out.println("Welcome to my Dungeon Crawler!");
-            System.out.println("---------------------------------");
+            System.out.println("------------------------------");
             System.out.println("> command 'help' will show you what commands can you use to wander around dungeon");
             System.out.println("> command 'compass' will show you where in dungeon you are");
             System.out.println("> command 'move' will move your character through a dungeon");
-            System.out.println("> command 'unlock' will combined with 'next' or 'back' will try to unlock doors behind or in front of you");
+            System.out.println(
+                    "> command 'unlock' will combined with 'next' or 'back' will try to unlock doors behind or in front of you");
             System.out.println("> command 'quit' will exit the dungeon");
         });
 
@@ -85,6 +86,20 @@ public class App {
             System.out.println("With sigh of relief, you skip a turn and refill your HP and Energy.");
         });
 
+        commands.put("attack", arg -> {
+            Entity attackable = null;
+            for (Entity entity : entities) {
+                if (entity.getLocation() == player.getLocation())
+                    attackable = entity;
+            }
+            if (attackable != null) {
+                player.attack(attackable);
+                System.out.println("Player attacks " + attackable.name + " for " + player.getStrength());
+            } else {
+                System.out.println("Player swings through air hitting nothing.");
+            }
+        });
+
         // INITIALIZE ENTITIES
         entities.add(new Entity(EntityType.ENEMY_NPC, "Frank", 20, 10, Location.STORAGE, 5));
         entities.add(new Entity(EntityType.FRIENDLY_NPC, "Anna", 1000, 100, Location.STAIRWAY, 100));
@@ -93,18 +108,39 @@ public class App {
         // MAIN GAME LOOP runs while player is alive
         while (player.isAlive()) {
 
+            // setups variables for command process
             String[] input = getInput();
             String cmd = (input.length != 0) ? input[0] : "";
             String arg = (input.length > 1) ? input[1] : "";
 
+            // find command and execute it
             if (commands.keySet().contains(cmd)) {
                 clearScreen();
                 commands.get(cmd).execute(arg);
             }
-        }
 
-        s.close();
-    }
+            // each enemy that is in same room as player
+            // either attacks player or regenerates depending on their energy if enemy
+            for (Entity entity : entities) {
+                if (!entity.isAlive()) {// remove from list of entities, needs iterated approach};
+                    if (entity.getLocation() != player.getLocation())
+                        continue;
+                    if (entity.getType() == EntityType.ENEMY_NPC || entity.getType() == EntityType.BOSS) {
+                        System.out.println(entity.name + " is in same room as player");
+
+                        if (entity.isFizzled())
+                            entity.regenerate();
+                            System.out.println(entity.name + " looks tired and does not swing weapon this round.");
+                        } else {
+                            entity.attack(player);
+                            System.out.println(entity.name + " hits player for " + entity.getStrength() + ".");
+                        }
+                    }
+                }
+            }
+
+            s.close();
+        }
 
     public static String[] getInput() {
         String input = s.nextLine();

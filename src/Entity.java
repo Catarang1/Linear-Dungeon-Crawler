@@ -26,6 +26,10 @@ public class Entity {
         
     }
 
+    public EntityType getType() {
+        return this.type;
+    }
+
     public void attack(Entity e) {
         if (this.energy < 10) {return; }
         e.setHealth(e.getHealth() - this.strength);
@@ -37,7 +41,7 @@ public class Entity {
     }
 
     public boolean isFizzled() {
-        return this.energy > 0;
+        return this.energy < 0;
     }
     
     public void setHealth(int newHealth) {
