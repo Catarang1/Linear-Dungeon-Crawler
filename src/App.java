@@ -139,7 +139,6 @@ public class App {
                         System.out.println(entity.name + " hits player for " + entity.getStrength() + ".");
                     }
                 }
-                
             }
 
         }
