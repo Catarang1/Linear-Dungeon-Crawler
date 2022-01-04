@@ -41,12 +41,8 @@ public class Entity {
     }
     
     public void setHealth(int newHealth) {
-        if (newHealth >= 0) {
-            System.out.println("newHealth >= 0");
-            this.health = newHealth;
-        } else { 
-            this.health = 0;
-        }
+        if (newHealth >= 0) this.health = newHealth;
+        else this.health = 0;
     }
     
     public void setEnergy(int newEnergy) {
@@ -61,8 +57,16 @@ public class Entity {
         return this.health;
     }
 
+    public int getMaxHealth() {
+        return this.maxHealth;
+    }
+
     public int getEnergy() {
         return this.energy;
+    }
+
+    public int getMaxEnergy() {
+        return this.maxEnergy;
     }
 
     public void regenerate() {

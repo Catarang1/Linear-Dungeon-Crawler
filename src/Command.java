@@ -1,9 +1,3 @@
-public abstract class Command {
-    
-    public String name;
-
-    public Command(String name) {this.name = name;}
-
-    public abstract void execute(String arg);
-
+public interface Command {
+    public void execute(String arg);
 }
